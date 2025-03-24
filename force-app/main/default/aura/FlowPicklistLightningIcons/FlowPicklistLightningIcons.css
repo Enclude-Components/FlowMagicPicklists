@@ -1,0 +1,48 @@
+.THIS.flowmagic-icon-groups .slds-accordion__summary {
+    padding: 10px;
+    background: #eef1f7;
+}
+
+.THIS.flowmagic-icon-groups .slds-accordion__summary .slds-accordion__summary-heading span {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.THIS.flowmagic-icon-groups .slds-accordion__list-item {
+    border-top: none;
+}
+
+/*.THIS.flowmagic-icon-groups .slds-grid {
+    border-radius: .25rem;
+    border: 1px solid rgb(221, 219, 218);
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
+}*/
+
+.THIS .icon-container {
+    width: 100px;
+}
+
+.THIS .icon-container.selected {
+    outline: 0;
+    border-radius: .25rem;
+    box-shadow: 0 0 3px #0070d2;
+}
+
+.THIS .icon-text {
+    word-break: break-all;
+    font-size: 12px;
+    line-height: 1rem;
+}
+
+.THIS .slds-button:focus {
+    box-shadow: none;
+}
+
+.THIS .flowmagic_icon-container {
+    transition: all 0.5s;
+}
+
+.THIS .flowmagic_icon-container:hover {
+    background: #f0f0f0;
+    border-radius: .5rem;
+}

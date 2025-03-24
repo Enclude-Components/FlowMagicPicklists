@@ -1,0 +1,54 @@
+<aura:component>
+    <aura:attribute name="pv"      type="FlowPicklistOption" />
+    <aura:attribute name="loading" type="Boolean" default="false" />
+    <aura:attribute name="editing" type="Boolean" default="false" />
+    <aura:attribute name="options" type="List" default="[ {'label': 'Lightning Icon', 'value': 'true' },
+                                                          {'label': 'Image URL',      'value': 'false' } ]" />
+
+    <aura:registerEvent name="saveEvent" type="c:FlowPicklistConfigSave" />
+
+    <aura:handler event="c:FlowPicklistIconSelect" action="{!c.setIcon}" />
+
+    <div class="slds-size_1-of-2">
+        <lightning:card class="slds-m-around_medium" title="{!v.pv.optionValue}">
+            <aura:set attribute="actions">
+                <aura:if isTrue="{!v.editing}">
+                    <lightning:buttonIcon iconName="utility:delete" 
+                                          variant="bare" 
+                                          alternativeText="Remove" 
+                                          title="Remove" 
+                                          onclick="{!c.handleRemove}" />
+                </aura:if>
+            </aura:set>
+            <p class="slds-p-horizontal_small">
+                <lightning:textarea label="Description" value="{!v.pv.description}" disabled="{!not(v.editing)}" />
+                <lightning:radioGroup name="{!v.pv.optionValue}" label="Image Source" 
+                                      options="{!v.options}" value="{!v.pv.useIcon}" type="button"
+                                      disabled="{!not(v.editing)}" />
+
+                <aura:if isTrue="{!v.pv.useIcon}">
+                    <div class="flowmagic-border_around slds-text-align_center ">
+                        <lightning:icon iconName="{!v.pv.iconName}" size="large" />
+                    </div>
+                    <div class="slds-grid slds-m-top_small">
+                        <lightning:input class="slds-size_11-of-12 icon-name" label="Icon Name" value="{!v.pv.iconName}" disabled="{!not(v.editing)}" />
+                        <lightning:buttonIcon class="slds-size_1-of-12 search-icon" 
+                                              onclick="{!c.showIcons}" 
+                                              iconName="utility:search"  
+                                              variant="border-filled" 
+                                              alternativeText="Settings" 
+                                              disabled="{!not(v.editing)}" />
+                        <lightning:spinner aura:id="mySpinner" class="slds-hide" variant="brand" size="small" />
+                    </div>
+                    <aura:set attribute="else">
+                        <div class="flowmagic-border_around slds-text-align_center">
+                            <img class="img-container slds-p-around_small" src="{!v.pv.imageUrl}" />
+                        </div>
+                        <lightning:input label="Image URL" value="{!v.pv.imageUrl}" disabled="{!not(v.editing)}" /> 
+                    </aura:set>
+                </aura:if>
+            </p>
+        </lightning:card>
+    </div>
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+</aura:component>

@@ -1,0 +1,73 @@
+<aura:component controller="FlowPicklistConfigController" implements="force:appHostable,flexipage:availableForAllPageTypes" access="global">
+    <aura:attribute name="objects"        type="ObjectType[]" />
+    <aura:attribute name="selectedObject" type="String" />
+    <aura:attribute name="fields"         type="PicklistField[]" />
+    <aura:attribute name="selectedField"  type="String" />
+    <aura:attribute name="picklistValues" type="FlowPicklistOption[]" />
+    <aura:attribute name="editing"        type="Boolean" default="false" />
+    <aura:attribute name="saving"         type="Boolean" default="false" />
+    <aura:attribute name="errorMessage"   type="String" />
+    <aura:attribute name="errorResource"  type="String" />
+    <aura:attribute name="errorType"      type="String"  default="error" />
+
+    <!-- Combobox Attributes -->
+    <aura:attribute name="objectsSpinnerActive" type="Boolean" default="false" />
+    <aura:attribute name="fieldsSpinnerActive"  type="Boolean" default="false" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <aura:handler name="saveEvent" event="c:FlowPicklistConfigSave" action="{!c.handleSave}" />
+
+    <aura:if isTrue="{!not(empty(v.errorMessage))}">
+        <div class="{!'slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_' + v.errorType}" role="alert">
+            <span class="slds-assistive-text">{!v.errorType}}</span>
+            <lightning:icon variant="{!v.errorType == 'error' ? 'inverse' : ''}"
+                            iconName="{!'utility:' + v.errorType}" 
+                            class="slds-m-right_x-small" 
+                            size="x-small" />
+            <h2>
+                {!v.errorMessage}
+                <aura:if isTrue="{!not(empty(v.errorResource))}">
+                    <a class="slds-m-left_large slds-text-title_caps" target="_blank" href="{!v.errorResource}">Set up now</a>
+                </aura:if>
+            </h2>
+        </div>
+    </aura:if>
+    <div class="slds-theme_default slds-p-around_small">
+        <div class="slds-m-around_medium">
+            <lightning:combobox name="objects" label="Select object" placeholder="Select object" 
+                                options="{!v.objects}" value="{!v.selectedObject}" onchange="{!c.handleSelectObject}"
+                                spinnerActive="{!v.objectsSpinnerActive}" />
+        </div>
+        <aura:if isTrue="{!and(not(empty(v.selectedObject)), not(empty(v.fields)))}">
+            <div class="slds-m-around_medium">
+                <lightning:combobox name="fields" label="Select picklist field" placeholder="Select picklist field" 
+                                    options="{!v.fields}" value="{!v.selectedField}" onchange="{!c.handleSelectField}"
+                                    spinnerActive="{!v.fieldsSpinnerActive}" />
+            </div>
+        </aura:if>
+        <aura:if isTrue="{!not(empty(v.selectedField))}">
+            <div class="slds-m-around_medium slds-is-relative">
+                <aura:if isTrue="{!v.saving}">
+                    <lightning:spinner variant="brand" />
+                </aura:if>
+                <c:FlowPicklistPreview aura:id="picklist-preview-config" sObjectName="{!v.selectedObject}" picklistField="{!v.selectedField}" />
+            </div>
+            <div class="slds-m-horizontal_medium slds-text-align_right">
+                <aura:if isTrue="{!v.editing}">
+                    <lightning:button label="Cancel" iconName="utility:close" iconPosition="left" onclick="{!c.handleCancel}" />
+                </aura:if>
+                <lightning:buttonStateful labelWhenOff="Edit" labelWhenOn="Save" iconNameWhenOff="utility:edit" variant="brand"
+                                        iconNameWhenOn="utility:upload" state="{!v.editing}" onclick="{!c.handleEdit}" />
+            </div>
+            <div class="slds-grid slds-wrap slds-is-relative">
+                <aura:if isTrue="{!v.saving}">
+                    <lightning:spinner variant="brand" />
+                </aura:if>
+                <aura:iteration items="{!v.picklistValues}" var="pv">
+                    <c:FlowPicklistConfigItem pv="{!pv}" editing="{!v.editing}" />
+                </aura:iteration>
+            </div>
+        </aura:if>
+    </div>
+</aura:component>

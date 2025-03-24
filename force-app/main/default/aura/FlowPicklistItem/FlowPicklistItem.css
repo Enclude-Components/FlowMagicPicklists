@@ -1,0 +1,163 @@
+.THIS.slds-visual-picker:not(.slds-visual-picker_vertical) {
+	margin: 0 .5rem;
+}
+
+.THIS.slds-visual-picker.slds-visual-picker_vertical {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+.THIS.slds-visual-picker.selected .slds-visual-picker__text {
+    border: var(--lwc-borderWidthThin,1px) solid var(--lwc-colorBorderSelectionHover,rgb(27, 150, 255));
+    box-shadow: 0 0 0 1px var(--lwc-colorBorderSelectionHover,rgb(27, 150, 255)) inset;
+}
+
+.THIS.slds-visual-picker.selected .slds-visual-picker__text:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-color: transparent;
+    border-style: solid;
+    border-radius: 0 var(--lwc-borderRadiusMedium,0.25rem) 0 0;
+    border-width: 1rem;
+    border-right-color: var(--lwc-colorBrand,rgb(27, 150, 255));
+    border-top-color: var(--lwc-colorBrand,rgb(27, 150, 255));
+}
+
+.THIS.slds-visual-picker.selected .slds-is-selected {
+    display: block;
+}
+
+.THIS.slds-visual-picker.selected .slds-is-not-selected {
+    display: none;
+}
+
+.THIS.slds-visual-picker.selected .slds-visual-picker__icon {
+    background-color: var(--lwc-colorBrand,rgb(27, 150, 255));
+    border: 1px solid var(--lwc-colorBrand,rgb(27, 150, 255));
+}
+
+.THIS .slds-icon-utility-check .slds-icon-text-default {
+    fill: #fff;
+}
+
+.THIS .image-container:hover {
+    transform: scale(1.1, 1.1);
+}
+
+.THIS .image-container {
+    transition: all .25s ease-in-out;
+}
+
+.THIS.link {
+    width: 100%;
+}
+
+.THIS.link.flowmagic-link-container_small {
+    max-width: 25rem;
+}
+
+.THIS.link.flowmagic-link-container_medium {
+    max-width: calc(50% - 1rem);
+}
+
+.THIS.link.flowmagic-link-container_large {
+    max-width: 100%;
+}
+
+.THIS.link div.slds-media__body {
+    margin: auto;
+}
+
+.THIS.link-selected {
+    cursor: pointer;
+    outline: 0;
+    border: 1px solid var(--lwc-colorBrand,rgb(27, 150, 255));
+    box-shadow: inset 0 0 0 1px var(--lwc-colorBrand,rgb(27, 150, 255));
+}
+
+.THIS.slds-visual-picker_vertical .slds-visual-picker__figure {
+    height: auto;
+    min-height: 6rem;
+}
+
+/* Image sizes */
+.THIS .image-container.slds-icon_full {
+    width: 5rem;
+    height: 5rem;
+}
+
+/* Icon sizes */
+.THIS .flowmagic-icon_x-large,
+.THIS .slds-icon_x-large {
+    width: 5rem;
+    height: 5rem;
+}
+
+.THIS .flowmagic-icon_x-large svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* Icon sizes - Full Size */
+.THIS.link .flowmagic-icon_full {
+    width: 5rem;
+    height: 5rem;
+}
+
+.THIS.link .flowmagic-icon_full svg {
+    width: 100%;
+    height: 100%;
+}
+
+.THIS:not(.link) .slds-icon_full {
+    width: 90%;
+    height: 90%;
+}
+
+.THIS:not(.link).slds-visual-picker .flowmagic-icon_full {
+    width: 12rem;
+    height: 12rem;
+}
+
+.THIS:not(.link).slds-visual-picker .flowmagic-icon_full:not(.slds-icon_container_circle) svg {
+    width: 100%;
+    height: 100%;
+}
+
+.THIS:not(.link).slds-visual-picker_small .flowmagic-icon_full {
+    width: 8.5rem;
+    height: 8.5rem;
+}
+
+.THIS:not(.link).slds-visual-picker_small:not(.slds-icon_container_circle) .flowmagic-icon_full svg {
+    width: 100%;
+    height: 100%;
+}
+
+.THIS:not(.link).slds-visual-picker_large .flowmagic-icon_full {
+    width: 15rem;
+    height: 15rem;
+}
+
+.THIS:not(.link).slds-visual-picker_large .flowmagic-icon_full:not(.slds-icon_container_circle) svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* Action icons - full size */
+.THIS.slds-visual-picker_medium .slds-icon_container_circle.flowmagic-icon_full svg {
+    width: 10rem;
+    height: 11rem;
+}
+
+.THIS.slds-visual-picker_small .slds-icon_container_circle.flowmagic-icon_full svg {
+    width: 6rem;
+    height: 7rem;
+}
+
+.THIS.slds-visual-picker_large .slds-icon_container_circle.flowmagic-icon_full svg {
+    width: 13rem;
+    height: 14rem;
+}

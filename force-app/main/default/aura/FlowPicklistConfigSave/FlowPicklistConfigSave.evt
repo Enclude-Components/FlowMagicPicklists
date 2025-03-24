@@ -1,0 +1,4 @@
+<aura:event type="COMPONENT" description="Flow Picklist configuration save event">
+    <aura:attribute name="picklistValue" type="String" />
+    <aura:attribute name="actionType"    type="String" />
+</aura:event>

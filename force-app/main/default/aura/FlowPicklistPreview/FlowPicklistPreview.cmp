@@ -1,0 +1,66 @@
+<aura:component>
+    <aura:attribute name="sObjectName"        access="global" type="String" />
+    <aura:attribute name="picklistField"      access="global" type="String" />
+    <aura:attribute name="picklistOptions"                    type="Object[]" />
+    <aura:attribute name="variant"            access="global" type="String"  default="Non Coverable Content" />
+    <aura:attribute name="alignment"          access="global" type="String"  default="center" />
+    <aura:attribute name="size"               access="global" type="String"  default="medium" />
+    <aura:attribute name="imageSize"          access="global" type="String"  default="medium" />
+    <aura:attribute name="hideText"           access="global" type="Boolean" default="false" />
+    <aura:attribute name="hideDesc"           access="global" type="Boolean" default="false" />
+
+    <aura:attribute name="sizeOptions"        type="String[]" default="small,medium,large" />
+    <aura:attribute name="imageSizeOptions"   type="String[]" default="xx-small,x-small,small,medium,large,x-large,full" />
+    <aura:attribute name="variantOptions"     type="String[]" default="Non Coverable Content,Coverable Content,Link,Vertical" />
+    <aura:attribute name="alignmentOptions"   type="String[]" default="center,start,end" />
+
+    <aura:method name="refresh" action="{!c.doInit}" description="Refresh preview" /> 
+
+    <div class="preview-container">
+        <h2 class="slds-text-heading_small slds-m-around_small">Preview</h2>
+        <lightning:layout class="slds-m-vertical_small" multipleRows="true">
+                <lightning:layoutItem size="3" padding="around-small">
+                    <lightning:select name="variantOptions" label="Select a Variant" value="{!v.variant}" required="true">
+                        <aura:iteration items="{!v.variantOptions}" var="variant">
+                            <option text="{!variant}"></option>
+                        </aura:iteration>
+                    </lightning:select>
+                </lightning:layoutItem>
+                <lightning:layoutItem size="3" padding="around-small">
+                    <lightning:select name="alignmentOptions" label="Select Alignment" value="{!v.alignment}" required="true">
+                        <aura:iteration items="{!v.alignmentOptions}" var="alignment">
+                            <option text="{!alignment}"></option>
+                        </aura:iteration>
+                    </lightning:select>
+                </lightning:layoutItem>
+                <lightning:layoutItem size="3" padding="around-small">
+                    <lightning:select name="sizeOptions" label="Select Size" value="{!v.size}" disabled="{!equals(v.variant, 'Vertical')}" required="true">
+                        <aura:iteration items="{!v.sizeOptions}" var="size">
+                            <option text="{!size}"></option>
+                        </aura:iteration>
+                    </lightning:select>
+                </lightning:layoutItem>
+                <lightning:layoutItem size="3" padding="around-small">
+                    <lightning:select name="imageSizeOptions" label="Select Image Size" value="{!v.imageSize}" disabled="{!equals(v.variant, 'Vertical')}" required="true">
+                        <aura:iteration items="{!v.imageSizeOptions}" var="imageSize">
+                            <option text="{!imageSize}" disabled="{!and(equals(v.variant, 'Link'), equals(imageSize, 'full'))}"></option>
+                        </aura:iteration>
+                    </lightning:select>
+                </lightning:layoutItem>
+                <lightning:layoutItem size="3" padding="around-small">
+                    <lightning:input type="toggle" label="Hide Text" name="hideText" checked="{!v.hideText}" />
+                </lightning:layoutItem>
+                <lightning:layoutItem size="3" padding="around-small">
+                    <lightning:input type="toggle" label="Hide Description" name="hideDesc" checked="{!v.hideDesc}" />
+                </lightning:layoutItem>
+                <lightning:layoutItem size="3" padding="around-small" />
+                <lightning:layoutItem size="3" padding="around-small" />
+        </lightning:layout>
+
+        <div class="slds-m-around_small">
+            <c:FlowPicklist aura:id="picklist-preview" sObjectName="{!v.sObjectName}" picklistField="{!v.picklistField}" variant="{!v.variant}" 
+                            alignment="{!v.alignment}" hideText="{!v.hideText}" hideDescription="{!v.hideDesc}"
+                            size="{!v.size}" imageSize="{!v.imageSize}" />
+        </div>
+    </div>
+</aura:component>

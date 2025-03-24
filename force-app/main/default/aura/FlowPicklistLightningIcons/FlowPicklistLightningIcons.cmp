@@ -1,0 +1,33 @@
+<aura:component>
+    <aura:attribute name="picklistValue"  type="String" />
+
+    <aura:attribute name="iconGroups"     type="List" />
+    <aura:attribute name="iconGroupNames" type="List" />
+    <aura:attribute name="selected"       type="String" />
+    
+    <aura:registerEvent name="selectIcon" type="c:FlowPicklistIconSelect" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <lightning:accordion class="flowmagic-icon-groups" aura:id="iconGroups" allowMultipleSectionsOpen="true" activeSectionName="{!v.iconGroupNames}">
+        <aura:iteration items="{!v.iconGroups}" var="group">
+            <lightning:accordionSection name="{!group.groupName}" label="{!group.groupName}">
+                <aura:set attribute="body">
+                    <div class="slds-grid slds-wrap slds-grid_align-spread">
+                        <aura:iteration items="{!group.iconNames}" var="icon">
+                            <div class="{!(v.selected == icon ? 'selected' : '') + ' slds-text-align_center icon-container slds-p-around_x-small flowmagic_icon-container'}">
+                                <lightning:icon iconName="{!group.prefix + ':' + icon}" size="{!group.iconSize}" />
+                                <div class="slds-text-align_center">
+                                    <lightning:button class="icon-text slds-m-top_xx-small" variant="base" label="{!icon}" 
+                                                      name="{!group.prefix + ':' + icon}" title="{!icon}" onclick="{!c.selectIcon}"/>
+                                </div>
+                            </div>
+                        </aura:iteration>
+                    </div>
+                </aura:set>
+            </lightning:accordionSection>
+        </aura:iteration>
+    </lightning:accordion>
+    
+    <lightning:overlayLibrary aura:id="overlayLib1"/>
+</aura:component>

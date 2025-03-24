@@ -1,0 +1,56 @@
+<aura:component controller="FlowPicklistController" implements="flexipage:availableForAllPageTypes,lightning:availableForFlowScreens"  access="global">
+    <aura:attribute name="recordId"           access="global" type="String"   />
+    <aura:attribute name="sObjectName"        access="global" type="String"   />
+    <aura:attribute name="picklistField"      access="global" type="String"   />
+    <aura:attribute name="picklistConfig"                     type="Object"   />
+    <aura:attribute name="isMultiPicklist"                    type="Boolean"  />
+    <aura:attribute name="picklistOptions"                    type="Object[]" />
+    <aura:attribute name="variant"            access="global" type="String" default="Non Coverable Content" />
+    <aura:attribute name="alignment"          access="global" type="String" default="center" />
+    <aura:attribute name="size"               access="global" type="String" default="medium" />
+    <aura:attribute name="imageSize"          access="global" type="String" default="medium" />
+    <aura:attribute name="theme"              access="global" type="String" default="default" />
+    <aura:attribute name="selectedValue"      access="global" type="String" />
+    <aura:attribute name="selectedValueList"                  type="String" />
+    <aura:attribute name="message"                            type="String" />
+
+    <aura:attribute name="hideText"           access="global" type="Boolean" default="false" />
+    <aura:attribute name="hideDescription"    access="global" type="Boolean" default="false" />
+    <aura:attribute name="transitionOnSelect" access="global" type="Boolean" default="false" />
+    <aura:attribute name="controllingValue"   access="global" type="String"  />
+
+    <!-- Determine which flow actions are available -->
+    <aura:attribute name="canPause"  type="Boolean" />
+    <aura:attribute name="canBack"   type="Boolean" />
+    <aura:attribute name="canNext"   type="Boolean" />
+    <aura:attribute name="canFinish" type="Boolean" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:method name="reInit" action="{!c.doInit}" description="Re-initialising method" /> 
+    
+    <aura:handler name="selectEvent" event="c:FlowPicklistSelect" action="{!c.handleSelect}" />
+    
+    <div class="{!'slds-grid ' + (v.variant == 'Vertical' ? 'slds-grid_vertical' : 'slds-wrap') + ' slds-grid_align-' + v.alignment + ' slds-theme_' + v.theme}">
+        <aura:iteration items="{!v.picklistOptions}" var="option">
+            <c:FlowPicklistItem optionLabel="{!option.optionLabel}"
+                                optionValue="{!option.optionValue}"
+                                description="{!option.description}"
+                                variant="{!v.variant}"
+                                size="{!v.size}"
+                                useIcon="{!option.useIcon}"
+                                iconName="{!option.iconName}"
+                                imageUrl="{!option.imageUrl}"
+                                imageSize="{!v.imageSize}"
+                                selected="{!option.selected}"
+                                objectName="{!v.sObjectName}"
+                                fieldName="{!v.picklistField}"
+                                hideText="{!v.hideText}"
+                                hideDesc="{!v.hideDescription}"
+                                isMultiPicklist="{!v.picklistConfig.isMultiPicklist}" />
+        </aura:iteration>
+    </div>
+    <div class="{!'flowmagic-error slds-box slds-m-bottom_small slds-grid ' + (empty(v.message) ? 'slds-hide' : '')}">
+        <lightning:icon iconName="utility:error" variant="error" size="small" />
+        <h3 class="slds-p-left_x-small">{!v.message}</h3>
+    </div>
+</aura:component>
