@@ -1,0 +1,54 @@
+# Ignore local package files
+node_modules/
+package-lock.json
+yarn.lock
+
+# SFDX project-specific files
+.sfdx/
+.localdevserver/
+
+# ForceCode extension related files
+.forceCode/
+force.json
+
+# VS Code files
+.vscode/
+
+# IDE and OS-specific files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*.swn
+
+# Logs
+*.log
+
+# NPM debug files
+npm-debug.log*
+
+# Coverage and test reports
+coverage/
+*.lcov
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Temporary files
+*.tmp
+*.bak
+
+# Ignore scratch org definition history
+config/.sfdx-config.json
+
+# Ignore built artifacts
+*.zip
+*.tar.gz
+
+# Ignore unpackaged metadata
+**/unpackaged/
+
+# Ignore Apex debug logs
+**/*.log

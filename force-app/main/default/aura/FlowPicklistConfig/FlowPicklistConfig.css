@@ -1,0 +1,20 @@
+.THIS .slds-card+.slds-card {
+    margin-top: 0px;
+}
+
+.THIS.flowmagic-error {
+    color: #c23934;
+}
+
+.THIS.flowmagic-info {
+    color: #706e6b;
+}
+
+.THIS.flowmagic-error h3,
+.THIS.flowmagic-info h3 {
+    margin: auto 0;
+}
+
+/*.THIS .slds-listbox__option:after {
+    content: "⭐️";
+}*/

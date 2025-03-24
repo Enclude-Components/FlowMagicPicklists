@@ -1,0 +1,17 @@
+.THIS.slds-grid_vertical.slds-grid_align-center,
+.THIS.slds-grid_vertical.slds-grid_align-space,
+.THIS.slds-grid_vertical.slds-grid_align-spread {
+    align-items: center !important;
+}
+
+.THIS.slds-grid_vertical.slds-grid_align-end {
+    align-items: flex-end !important;
+}
+
+.THIS.flowmagic-error {
+    color: #c23934;
+}
+
+.THIS.flowmagic-error h3 {
+    margin: auto 0;
+}

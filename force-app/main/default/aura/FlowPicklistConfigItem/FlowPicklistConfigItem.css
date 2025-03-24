@@ -1,0 +1,20 @@
+.THIS .flowmagic-border_around > .slds-icon_container {
+    border: 1px solid rgb(221, 219, 218);
+    border-radius: .25rem;
+    padding: .75rem;
+    margin: 13px;
+}
+
+.THIS .img-container {
+    width: 100px;
+    height: 100px;
+}
+
+.THIS .search-icon {
+    margin-left: .25rem;
+    margin-top: 1.5rem;
+}
+
+.THIS .icons-modal .slds-modal__container {
+    width: 80%;
+}

@@ -1,0 +1,13 @@
+<design:component label="Flow Magic Picklist">
+    <design:attribute name="sObjectName"        label="Object Name"             description="API name of an object (e.g. Case)" required="true" />
+    <design:attribute name="picklistField"      label="Picklist Field Name"     description="API name of a picklist field (e.g. Status__c)" required="true" />
+    <design:attribute name="variant"            label="Variant"                 description="Variants - available values are: Coverable Content, Link, Non Coverable Content and Vertical" datasource="Coverable Content,Link,Non Coverable Content,Vertical" default="Non Coverable Content" />
+    <design:attribute name="alignment"          label="Alignment"               description="Grid Alignment - available values are: start, center, space, spread and end" datasource="start,center,space,spread,end" default="center" />
+    <design:attribute name="size"               label="Size"                    description="Size of visual picker - available values are: small, medium and large" datasource="small,medium,large" default="medium" />
+    <design:attribute name="imageSize"          label="Image Size"              description="Size of image/icon - available values are: xx-small, x-small, small, medium, large and x-large" datasource="xx-small,x-small,small,medium,large,x-large" default="medium" />
+    <design:attribute name="theme"              label="Theme"                   description="Theme. Currently only 'default' is supported" datasource="default" default="default" />
+    <design:attribute name="transitionOnSelect" label="Transition on Select"    description="Perform transition when selecting an option. Default is false" default="false" />
+    <design:attribute name="hideText"           label="Hide Text"               description="Hide picklist value text on visual pickers" default="false" />
+    <design:attribute name="hideDescription"    label="Hide Description"        description="Hide description on visual pickers" default="false" />
+    <design:attribute name="selectedValue"      label="Selected Picklist Value" description="Selected picklist value in text" />
+</design:component>

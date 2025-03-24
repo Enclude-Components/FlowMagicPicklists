@@ -1,0 +1,141 @@
+<aura:component>
+    <aura:attribute name="imageUrl"        type="String" default="https://www.lightningdesignsystem.com/assets/images/logo.svg" />
+    <aura:attribute name="imageSize"       type="String" />
+    <aura:attribute name="optionLabel"     type="String" />
+    <aura:attribute name="optionValue"     type="String" />
+    <aura:attribute name="description"     type="String" />
+    <aura:attribute name="variant"         type="String" />
+    <aura:attribute name="size"            type="String" />
+    <aura:attribute name="useIcon"         type="Boolean" default="false" />
+    <aura:attribute name="iconName"        type="String"  default="utility:salesforce1" />
+    <aura:attribute name="objectName"      type="String" />
+    <aura:attribute name="fieldName"       type="String" />
+    <aura:attribute name="selected"        type="Boolean" default="false" />
+    <aura:attribute name="hideText"        type="Boolean" default="false" />
+    <aura:attribute name="hideDesc"        type="Boolean" default="false" />
+    <aura:attribute name="isMultiPicklist" type="Boolean" default="false" />
+    <!--
+    <aura:attribute name="itemName"        type="String" />
+    <aura:attribute name="itemValue"       type="String" />
+    -->
+    
+    <aura:registerEvent name="selectEvent" type="c:FlowPicklistSelect" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+    <aura:if isTrue="{!equals(v.variant, 'Link')}">
+        <a id="{!v.optionValue}" href="javascript:void(0);" onclick="{!c.selectOption}" 
+           class="{!(v.selected ? 'link-selected' : '') + ' link flowmagic-link-container_' + v.size + ' slds-m-around_x-small slds-box slds-box_link slds-box_x-small slds-media'}">
+            <div class="slds-media__figure slds-media__figure_fixed-width slds-align_absolute-center slds-m-left_xx-small">
+                <aura:if isTrue="{!v.useIcon}">
+                    <lightning:icon iconName="{!v.iconName}" 
+                                    size="{!v.imageSize}" 
+                                    class="{!'flowmagic-icon_' + v.imageSize}" />
+                    <aura:set attribute="else">
+                        <img class="{!'image-container slds-icon' + (v.imageSize == 'medium' ? '' : '_' + v.imageSize)}" 
+                             src="{!v.imageUrl}" 
+                             alt="{!v.optionLabel}" />
+                    </aura:set>
+                </aura:if>
+            </div>
+            <div class="slds-media__body slds-border_left slds-p-around_small">
+                <aura:if isTrue="{!or(not(v.hideText), not(v.hideDesc))}">
+                    <aura:if isTrue="{!not(v.hideText)}">
+                        <h2 class="slds-truncate slds-text-heading_small" title="{!v.optionLabel}">{!v.optionLabel}</h2>
+                    </aura:if>
+                    <aura:if isTrue="{!and(not(v.hideDesc), not(empty(v.description)))}">
+                        <p class="{!v.hideText ? '' : 'slds-m-top_small'}">{!v.description}</p>
+                    </aura:if>
+                </aura:if>
+            </div>
+        </a>
+    </aura:if>
+    <aura:if isTrue="{!equals(v.variant, 'Vertical')}">
+        <div class="{!'slds-visual-picker' + (v.selected ? ' selected' : '') + ' slds-visual-picker_vertical'}" onclick="{!c.selectOption}">
+            <!--<input type="radio" id="{!v.optionValue}" value="{!v.optionValue}" name="{!v.itemName}" onclick="{!c.selectOption}" />-->
+            <label for="{!v.optionValue}">
+                <span class="slds-visual-picker__figure slds-visual-picker__text">
+                    <aura:if isTrue="{!or(not(v.hideText), not(v.hideDesc))}">
+                        <span>
+                            <aura:if isTrue="{!not(v.hideText)}">
+                                <span class="slds-text-heading_medium slds-m-bottom_x-small">{!v.optionLabel}</span>
+                            </aura:if>
+                            <aura:if isTrue="{!and(not(v.hideDesc), not(empty(v.description)))}">
+                                <span class="slds-text-title">{!v.description}</span>
+                            </aura:if>
+                        </span>
+                    </aura:if>
+                </span>
+                <span class="{!'slds-icon_container slds-visual-picker__text-check ' + (v.selected ? '' : 'slds-hide')}">
+                    <lightning:icon aura:id="checkIcon" iconName="utility:check" size="xx-small" />
+                </span>
+            </label>
+        </div>
+    </aura:if>
+    <aura:if isTrue="{!equals(v.variant, 'Coverable Content')}">
+        <div class="{!'slds-visual-picker' + (v.selected ? ' selected' : '') + ' slds-visual-picker_' + v.size}" onclick="{!c.selectOption}">
+            <!--<input type="radio" id="{!v.optionValue}" value="{!v.optionValue}" name="{!v.itemName}" onclick="{!c.selectOption}" />-->
+            <label for="{!v.optionValue}">
+                <span class="slds-visual-picker__figure slds-visual-picker__icon slds-align_absolute-center">
+                    <span class="slds-is-selected">
+                        <lightning:icon iconName="action:check" size="large" />
+                    </span>
+                    <span class="slds-is-not-selected">
+                        <aura:if isTrue="{!v.useIcon}">
+                            <lightning:icon iconName="{!v.iconName}" 
+                                            size="{!v.imageSize}" 
+                                            class="{!'flowmagic-icon_' + v.imageSize}" />
+                            <aura:set attribute="else">
+                                <img class="{!'image-container slds-icon' + (v.imageSize == 'medium' ? '' : '_' + v.imageSize)}" src="{!v.imageUrl}" alt="{!v.optionLabel}" />
+                            </aura:set>
+                        </aura:if>
+                    </span>
+                </span>
+                <span class="slds-visual-picker__body">
+                    <aura:if isTrue="{!or(not(v.hideText), not(v.hideDesc))}">
+                        <aura:if isTrue="{!not(v.hideText)}">
+                            <span class="slds-text-heading_small">{!v.optionLabel}</span>
+                        </aura:if>
+                        <aura:if isTrue="{!and(not(v.hideDesc), not(empty(v.description)))}">
+                            <span class="slds-text-title">{!v.description}</span>
+                        </aura:if>
+                    </aura:if>
+                </span>
+            </label>
+        </div>
+    </aura:if>
+    <aura:if isTrue="{!equals(v.variant, 'Non Coverable Content')}">
+        <div class="{!'slds-visual-picker' + (v.selected ? ' selected' : '') + ' slds-visual-picker_' + v.size}" onclick="{!c.selectOption}">
+            <!--<input type="radio" id="{!v.optionValue}" value="{!v.optionValue}" name="{!v.itemName}" onclick="{!c.selectOption}" />-->
+            <label for="{!v.optionValue}">
+                <span class="slds-visual-picker__figure slds-visual-picker__text slds-align_absolute-center">
+                    <span>
+                        <aura:if isTrue="{!v.useIcon}">
+                            <lightning:icon iconName="{!v.iconName}" 
+                                            size="{!v.imageSize}" 
+                                            class="{!'flowmagic-icon_' + v.imageSize}" />
+                            <aura:set attribute="else">
+                                <img class="{!'image-container slds-icon' + (v.imageSize == 'medium' ? '' : '_' + v.imageSize)}" src="{!v.imageUrl}" alt="{!v.optionLabel}" />
+                            </aura:set>
+                        </aura:if>
+                    </span>
+                </span>
+                <span class="slds-visual-picker__body">
+                    <aura:if isTrue="{!or(not(v.hideText), not(v.hideDesc))}">
+                        <aura:if isTrue="{!not(v.hideText)}">
+                            <span class="slds-text-heading_small">{!v.optionLabel}</span>
+                        </aura:if>
+                        <aura:if isTrue="{!and(not(v.hideDesc), not(empty(v.description)))}">
+                            <span class="slds-text-title">{!v.description}</span>
+                        </aura:if>
+                    </aura:if>
+                </span>
+                <span class="{!'slds-icon_container slds-visual-picker__text-check ' + (v.selected ? '' : 'slds-hide')}">
+                    <lightning:icon aura:id="checkIcon" iconName="utility:check" size="xx-small" />
+                </span>
+            </label>
+        </div>
+    </aura:if>
+    
+    
+</aura:component>
