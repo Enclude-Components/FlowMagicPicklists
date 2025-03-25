@@ -1,5 +1,5 @@
 <aura:component>
-    <aura:attribute name="imageUrl"        type="String" default="https://www.lightningdesignsystem.com/assets/images/logo.svg" />
+    <aura:attribute name="imageUrl"        type="String" default="https://v1.lightningdesignsystem.com/assets/images/logo.svg" />
     <aura:attribute name="imageSize"       type="String" />
     <aura:attribute name="optionLabel"     type="String" />
     <aura:attribute name="optionValue"     type="String" />

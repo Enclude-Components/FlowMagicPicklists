@@ -13,7 +13,7 @@
 public with sharing class FlowPicklistOption {
 
     public static final String DEFAULT_ICON  = 'standard:default';
-    public static final String DEFAULT_IMAGE = 'https://www.lightningdesignsystem.com/assets/images/logo.svg';
+    public static final String DEFAULT_IMAGE = 'https://v1.lightningdesignsystem.com/assets/images/logo.svg';
 
     /**
      * URL of the image for this picklist value. Only used when useIcon = 'false'

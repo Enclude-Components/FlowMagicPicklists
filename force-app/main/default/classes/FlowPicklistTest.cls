@@ -4,15 +4,15 @@ public class FlowPicklistTest {
     static String getTestData() {
         return '[{"objectName" : "Account", "fieldName" : "Rating", '+ 
             '"picklistValues": [{"iconName":"action:close",' + 
-            '"imageUrl":"https://www.lightningdesignsystem.com/assets/images/logo.svg",' + 
+            '"imageUrl":"https://v1.lightningdesignsystem.com/assets/images/logo.svg",' + 
             '"optionLabel":"Hot","optionValue":"Hot","useIcon":"true",' + 
             '"description":"Very active account"},' + 
             '{"iconName":"action:check",' + 
-            '"imageUrl":"https://www.lightningdesignsystem.com/assets/images/logo.svg",' + 
+            '"imageUrl":"https://v1.lightningdesignsystem.com/assets/images/logo.svg",' + 
             '"optionLabel":"Warm","optionValue":"Warm","useIcon":"false",' + 
             '"description":"Account is fairly active"},' + 
             '{"iconName":"action:check",' + 
-            '"imageUrl":"https://www.lightningdesignsystem.com/assets/images/logo.svg",' + 
+            '"imageUrl":"https://v1.lightningdesignsystem.com/assets/images/logo.svg",' + 
             '"optionLabel":"Cold","optionValue":"Cold",' + 
             '"description":"Account is not active"}' + 
             ']}]';
@@ -23,11 +23,11 @@ public class FlowPicklistTest {
             '"picklistValues": [{"iconName":"action:close",' +
             '"optionLabel":"Hot","optionValue":"Hot","useIcon":"false",' + 
             '"description":"Very active account"},' + 
-            '{"imageUrl":"https://www.lightningdesignsystem.com/assets/images/logo.svg",' + 
+            '{"imageUrl":"https://v1.lightningdesignsystem.com/assets/images/logo.svg",' + 
             '"optionLabel":"Warm","optionValue":"Warm","useIcon":"true",' + 
             '"description":"Account is fairly active"},' + 
             '{"iconName":"action:check",' + 
-            '"imageUrl":"https://www.lightningdesignsystem.com/assets/images/logo.svg",' + 
+            '"imageUrl":"https://v1.lightningdesignsystem.com/assets/images/logo.svg",' + 
             '"optionLabel":"Cold","optionValue":"Cold",' + 
             '"description":"Account is not active"}' + 
             ']}]';
@@ -163,15 +163,15 @@ public class FlowPicklistTest {
             FlowPicklistConfigController.saveConfig('Account', 
                                                     'Rating', 
                                                     '[{"iconName":"action:close",' + 
-                                                    '"imageUrl":"https://www.lightningdesignsystem.com/assets/images/logo.svg",' + 
+                                                    '"imageUrl":"https://v1.lightningdesignsystem.com/assets/images/logo.svg",' + 
                                                     '"optionLabel":"Hot","optionValue":"Hot","useIcon":"true",' + 
                                                     '"description":"Very active account"},' + 
                                                     '{"iconName":"action:check",' + 
-                                                    '"imageUrl":"https://www.lightningdesignsystem.com/assets/images/logo.svg",' + 
+                                                    '"imageUrl":"https://v1.lightningdesignsystem.com/assets/images/logo.svg",' + 
                                                     '"optionLabel":"Warm","optionValue":"Warm","useIcon":"true",' + 
                                                     '"description":"Account is fairly active"},' + 
                                                     '{"iconName":"action:check",' + 
-                                                    '"imageUrl":"https://www.lightningdesignsystem.com/assets/images/logo.svg",' + 
+                                                    '"imageUrl":"https://v1.lightningdesignsystem.com/assets/images/logo.svg",' + 
                                                     '"optionLabel":"Cold","optionValue":"Cold","useIcon":"true",' + 
                                                     '"description":"Account is not active"}' + 
                                                     ']');

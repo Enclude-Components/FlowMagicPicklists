@@ -63,7 +63,9 @@
                 "c.saveConfig",
                 function (response) {
                     helper.showToast('Success', 'Picklist Configuration is updated successfully.', 'success');
-                    helper.initPicklistValues(component);
+                    setTimeout(function() {
+                        helper.initPicklistValues(component);
+                    }, 100);
                 },
                 null,
                 {
