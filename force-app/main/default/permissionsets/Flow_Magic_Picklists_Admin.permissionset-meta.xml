@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <applicationVisibilities>
+        <application>Flow_Magic_Editor</application>
+        <visible>true</visible>
+    </applicationVisibilities>
     <classAccesses>
         <apexClass>FlowPicklistConfig</apexClass>
         <enabled>true</enabled>
@@ -25,14 +29,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>MetadataService</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>MetadataServiceTest</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>ObjectType</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -42,10 +38,6 @@
     </classAccesses>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Flow Magic Picklists Admin</label>
-    <pageAccesses>
-        <apexPage>FlowPicklistSession</apexPage>
-        <enabled>true</enabled>
-    </pageAccesses>
     <userPermissions>
         <enabled>true</enabled>
         <name>AssignTopics</name>

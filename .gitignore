@@ -4,8 +4,8 @@ package-lock.json
 yarn.lock
 
 # SFDX project-specific files
-.sfdx/
-.localdevserver/
+.sfdx
+.localdevserver
 
 # ForceCode extension related files
 .forceCode/
