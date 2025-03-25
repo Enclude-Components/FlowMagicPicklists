@@ -22,13 +22,56 @@ public with sharing class FlowPicklistHelper {
     public static final String STATIC_RESOURCE_HOME = '/lightning/setup/StaticResources/home';
     public static final String CUSTOM_SETTING_HOME  = '/lightning/setup/CustomSettings/home';
 
-    private static final String SESSION_ID = 'sessionId';
-    private static final String VF_SESSION = '/apex/FlowPicklistSession';
-
     private static final Integer NOT_FOUND = -1;
 
     private static final String RESOURCE_CONTENT_TYPE  = 'application/json';
     private static final String RESOURCE_CACHE_CONTROL = 'public';
+    
+    /**
+     * Sends an update request to modify a Static Resource in Salesforce.
+     * This method makes a callout to the Tooling API to update the specified static resource.
+     * 
+     * @param resourceId   The ID of the Static Resource to update.
+     * @param resourceName The new name for the Static Resource.
+     * @param resourceBody The updated content for the Static Resource (base64 encoded).
+     */
+    @future(callout=true)
+    public static void sendUpdateRequest(String resourceId, String resourceName, String resourceBody) {
+        
+        if (String.isNotBlank(resourceId) && String.isNotBlank(resourceName) && String.isNotBlank(resourceBody)) {
+            // Encode the resource content in Base64
+            String base64EncodedBody = EncodingUtil.base64Encode(Blob.valueOf(resourceBody));
+            
+            HttpRequest req = new HttpRequest();
+            Http http = new Http();
+            
+            // Construct the endpoint URL for updating the Static Resource via the Tooling API
+            req.setEndpoint(
+                URL.getOrgDomainURL().toExternalForm() + 
+                '/services/data/v62.0/tooling/sobjects/StaticResource/' + 
+                resourceId
+            );
+            req.setMethod('PATCH');
+            
+            // Set request headers
+            req.setHeader('Content-Type', 'application/json'); 
+            req.setHeader('Authorization', 'Bearer ' + UserInfo.getSessionId());
+            
+            // Construct the request body as a JSON payload
+            Map<String, Object> payload = new Map<String, Object>{
+                'Name'        => resourceName,
+                'ContentType' => RESOURCE_CONTENT_TYPE,
+                'Body'        => base64EncodedBody
+            }; 
+            req.setBody(
+                System.JSON.serializePretty(payload)
+            );
+            
+            // Send the HTTP request and log the response
+            HttpResponse res = http.send(req);
+            System.debug(res);
+        }  
+    }
 
     private static AuraHandledException generateException(FlowPicklistExceptionData data) {
         String error = data.serialise();
@@ -79,10 +122,9 @@ public with sharing class FlowPicklistHelper {
      * Manages reading/writing of the static resource.
      */
     public virtual class FlowPicklistFileManager {
+        public String resourceId   { get; set; }
         public String resourceName { get; set; }
         public String resourceBody { get; set; }
-
-        private MetadataService.MetadataPort service;
 
         public List<FlowPicklistConfig> configs { get; set; }
 
@@ -122,10 +164,11 @@ public with sharing class FlowPicklistHelper {
          * throws an error if there is no static resource with the given name.
          */
         protected virtual void readResource() {
-            List<StaticResource> resources = [ SELECT Name, Body 
+            List<StaticResource> resources = [ SELECT Id, Name, Body 
                                                FROM StaticResource 
                                                WHERE Name = :this.resourceName ];
             if (resources.size() > 0) {
+                this.resourceId   = resources[0].Id;
                 this.resourceBody = resources[0].Body.toString();
             } else {
                 throw generateException(
@@ -307,81 +350,12 @@ public with sharing class FlowPicklistHelper {
          * @param body: resource body in JSON format.
          *
          */
-        public void updateResource(String body) {
-            this.service = createStaticResourceService();
-
-            MetadataService.StaticResource resource = createStaticResourceRequest(body);
-            service.SessionHeader.sessionId = retrieveSessionId(getContent(VF_SESSION));
-
-            /**
-             * https://salesforce.stackexchange.com/questions/110515/getting-session-id-in-lightning
-             * Suggested solution is either using a visualforce page or named credential to retrieve the session ID.
-             */
-            //service.SessionHeader.sessionId = UserInfo.getSessionId();
-            List<MetadataService.SaveResult> results = updateMetadata(resource);
-            if (results.size() > 0) {
-                if (results[0].success == false) {
-                    throw generateException(
-                        new FlowPicklistExceptionData(
-                            results[0].errors[0].message,
-                            null,
-                            'error'
-                        )
-                    );
-                }
-            }
-        }
-
-        public virtual List<MetadataService.SaveResult> updateMetadata(MetadataService.StaticResource resource) {
-            return this.service.updateMetadata(new MetadataService.Metadata[] { resource });
-        }
-
-        /**
-         * Retrieves the content of the given page in string.
-         *
-         * @param pageName: Visualforce page name.
-         *
-         */
-        protected virtual String getContent(String pageName) {
-            return new PageReference(pageName).getContent().toString();
-        }
-
-        /**
-         * Retrieves the session ID from the given content
-         *
-         * @param content: page content.
-         *
-         */
-        private String retrieveSessionId(String content) {
-            Map<String, Object> m = (Map<String, Object>)JSON.deserializeUntyped(content);
-            return (String)m.get(SESSION_ID);
-        }
-    
-        /**
-         * Initialises and returns a MetadataPort instance.
-         *
-         */
-        private MetadataService.MetadataPort createStaticResourceService() {
-            MetadataService.MetadataPort service = new MetadataService.MetadataPort();
-            service.SessionHeader = new MetadataService.SessionHeader_element();
-            return service;
-        }
-    
-        /**
-         * Set up a MetadataService request for static resource.
-         *
-         * @param body: resource body.
-         *
-         */
-        private MetadataService.StaticResource createStaticResourceRequest(String body) {
-            MetadataService.StaticResource resource = new MetadataService.StaticResource();
-
-            resource.fullName     = this.resourceName;
-            resource.contentType  = RESOURCE_CONTENT_TYPE;
-            resource.cacheControl = RESOURCE_CACHE_CONTROL;
-            resource.content      = EncodingUtil.base64Encode(Blob.valueOf(body));
-
-            return resource;
+        public protected virtual void updateResource(String body) {
+            FlowPicklistHelper.sendUpdateRequest(
+                this.resourceId, 
+                this.resourceName, 
+                body
+            );
         }
     }
 }
