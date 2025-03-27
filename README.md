@@ -44,3 +44,6 @@ For developers who want to modify the source before deploying:
 ## Setup Guide
 Follow the instructions in the official guide to install and configure Flow Magic - Picklists:
 [Setup Instructions](https://salesforce.quip.com/tJYNAjcCFYWn)
+
+## License  
+This project is licensed under the Apache License 2.0. See the [LICENSE](./LICENSE.txt) file for details.
