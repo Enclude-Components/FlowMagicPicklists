@@ -19,7 +19,7 @@ If you prefer to install from source, you can deploy directly from this reposito
 Click the button below to deploy the app to your Salesforce org:  
 
 <div>
-    <a href="https://githubsfdeploy.herokuapp.com?owner=SalesforceLabs&repo=FlowMagicPicklists">
+    <a href="https://githubsfdeploy.herokuapp.com/?owner=SalesforceLabs&repo=FlowMagicPicklists&ref=main">
         <img alt="Deploy to Salesforce"
         src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/deploy.png">
     </a>
