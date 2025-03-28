@@ -4,7 +4,7 @@ Take the UX of your Salesforce flows to the next level and convert your picklist
 
 ## Deployment Options  
 
-### **Option 1: Install from the AppExchange ** 
+### **Option 1: Install from the AppExchange** 
 
 🔗 **[Flow Magic - Picklists](https://appexchange.salesforce.com/appxListingDetail?listingId=a0N3A00000FeFBAUA3)**  
 
