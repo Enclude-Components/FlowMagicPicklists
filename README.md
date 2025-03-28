@@ -1,6 +1,22 @@
-# Flow Magic - Picklists
+# 🪄 Flow Magic - Picklists  
 
-Take the UX of your Salesforce flows to the next level and convert your picklist fields into visually engaging selectors. Visual selectors boost productivity and the engagement of your flows by providing context and simplicity.
+Take the UX of your Salesforce flows to the next level and convert your picklist fields into visually engaging selectors. Visual selectors boost productivity and engagement by providing context and simplicity.  
+
+## Deployment Options  
+
+### **Option 1: Install from the AppExchange ** 
+
+🔗 **[Flow Magic - Picklists](https://appexchange.salesforce.com/appxListingDetail?listingId=a0N3A00000FeFBAUA3)**  
+
+1. Click the link above to visit the AppExchange listing.  
+2. Install the managed package in your Salesforce org.  
+3. Follow the [Setup Guide](#setup-guide) to configure the component in your flows.  
+
+### **Option 2: Deploy from Source (For Developers & Customisation)**  
+If you prefer to install from source, you can deploy directly from this repository.  
+
+#### **Deploy via GitHub SF Deploy**  
+Click the button below to deploy the app to your Salesforce org:  
 
 <div>
     <a href="https://githubsfdeploy.herokuapp.com?owner=SalesforceLabs&repo=FlowMagicPicklists">
@@ -9,23 +25,25 @@ Take the UX of your Salesforce flows to the next level and convert your picklist
     </a>
 </div>
 
-## Key Features
-- **Convert picklists to beautiful image selectors** for a more intuitive user experience.
-- **Speed up your process flows** by reducing clicks on traditional picklists.
-- **Configure with styles and help text** to provide additional context for selections.
+#### **Manual Deployment Using SFDX**  
+For developers who want to modify the source before deploying:  
 
-## Installation & Setup
+1. Clone the repository:  
+   ```sh
+   git clone https://github.com/SalesforceLabs/FlowMagicPicklists.git
+   cd FlowMagicPicklists
+2. Authorise your Salesforce org:
+   ```sh
+   sfdx org login web -a MyOrg
+3. Deploy source to your org:
+   ```sh
+   sfdx project deploy start -d force-app/main/default -o MyOrg
+4. Assign **Flow Magic Picklists Admin** permission set to the admin user.
+5. Follow the [Setup Guide](#setup-guide) to configure the component in your flows.
+
+## Setup Guide
 Follow the instructions in the official guide to install and configure Flow Magic - Picklists:
 [Setup Instructions](https://salesforce.quip.com/tJYNAjcCFYWn)
 
-## Managed Package Information
-You can find the managed package on the Salesforce AppExchange:
-[AppExchange Listing](https://appexchange.salesforce.com/appxListingDetail?listingId=a0N3A00000FeFBAUA3)
-
-## Getting Started
-1. Install the package from the AppExchange.
-2. Follow the setup guide to configure the component in your flow.
-3. Customize styles and help text to enhance the user experience.
-
-## Support & Contributions
-For questions, issues, or feature requests, visit the GitHub repository and open an issue.
+## License  
+This project is licensed under the Apache License 2.0. See the [LICENSE](./LICENSE.txt) file for details.
