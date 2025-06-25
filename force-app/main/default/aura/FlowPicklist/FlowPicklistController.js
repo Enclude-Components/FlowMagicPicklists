@@ -35,10 +35,11 @@
                 if (response && response.picklistValues && response.picklistValues.length > 0) {
                     component.set("v.picklistConfig", response);
                     component.set("v.picklistOptions", response.picklistValues);
-                    const selectedValue = component.get('v.selectedValue');
-                    //console.log(selectedValue);
-                    if (selectedValue) {
-                        helper.initSelections(component, selectedValue.split(';'));
+                    let selectedValues = component.get('v.selectedValue');
+                    if (selectedValues) {
+                        selectedValues.forEach(oneValue => {
+                            helper.initSelections(component, oneValue);
+                        })
                     }
                 } else {
                     component.set('v.message', 'No configuration found for this picklist field');
