@@ -29,6 +29,7 @@
     <aura:attribute name="recordId"           access="global" type="String"   />
     <aura:attribute name="sObjectName"        access="global" type="String"   />
     <aura:attribute name="picklistField"      access="global" type="String"   />
+    <aura:attribute name="quantityField"      access="global" type="String"   />
     <aura:attribute name="picklistConfig"                     type="Object"   />
     <aura:attribute name="isMultiPicklist"                    type="Boolean"  />
     <aura:attribute name="picklistOptions"                    type="Object[]" />
@@ -43,6 +44,7 @@
 
     <aura:attribute name="hideText"           access="global" type="Boolean" default="false" />
     <aura:attribute name="hideDescription"    access="global" type="Boolean" default="false" />
+    <aura:attribute name="hideQuantity"       access="global" type="Boolean" default="false" />
     <aura:attribute name="transitionOnSelect" access="global" type="Boolean" default="false" />
     <aura:attribute name="controllingValue"   access="global" type="String"  />
 
@@ -71,8 +73,10 @@
                                 selected="{!option.selected}"
                                 objectName="{!v.sObjectName}"
                                 fieldName="{!v.picklistField}"
+                                quantityFieldName="{!v.quantityField}"
                                 hideText="{!v.hideText}"
                                 hideDesc="{!v.hideDescription}"
+                                hideQuantity="{!v.hideQuantity}"
                                 isMultiPicklist="{!v.picklistConfig.isMultiPicklist}" />
         </aura:iteration>
     </div>

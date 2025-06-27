@@ -47,7 +47,8 @@
             },
             { 
                 objectName : component.get('v.sObjectName'),
-                fieldName  : component.get('v.picklistField')
+                fieldName  : component.get('v.picklistField'),
+                quantityFieldName  : component.get('v.quantityField')
             }
         );
     },
