@@ -41,14 +41,22 @@
             component.set('v.itemName', helper.PARENT_ID + '_' + objectName + '_' + fieldName);
         }
         component.set('v.itemValue', helper.PARENT_ID + '_' + objectName + '_' + fieldName + '_' + optionValue);*/
+        helper.getPicklistValues(component, event, helper);
     },
 	selectOption : function(component, event, helper) {
+//        alert (JSON.stringify(component.find("mygroup")));
+//        alert (component.find("mygroup").get("v.value"));
         const selectEvent = component.getEvent('selectEvent');
         selectEvent.setParams({
             'selected'   : component.get('v.optionValue'),
             'objectName' : component.get('v.objectName'),
-            'fieldName'  : component.get('v.fieldName')
+            'fieldName'  : component.get('v.fieldName'),
+            'quantity'   : component.get('v.optionValue' + 'q').get("v.value")
         });
         selectEvent.fire();
-    }
+    },
+   	changeQuantity : function(component, event, helper) {
+        var changeValue = event.getParam("value");
+     }
+
 })

@@ -35,11 +35,13 @@
                 if (response && response.picklistValues && response.picklistValues.length > 0) {
                     component.set("v.picklistConfig", response);
                     component.set("v.picklistOptions", response.picklistValues);
-                    let selectedValues = component.get('v.selectedValue');
-                    if (selectedValues) {
-                        selectedValues.forEach(oneValue => {
+                    let selectedValues = JSON.parse(component.get('v.selectedValue'));
+                   if (selectedValues) {
+                        selectedValues.forEach((oneValue) => {
                             helper.initSelections(component, oneValue);
                         })
+                    } else {
+                        alert (selectedValues);
                     }
                 } else {
                     component.set('v.message', 'No configuration found for this picklist field');
@@ -58,7 +60,15 @@
         const isMultiPicklist  = component.get('v.picklistConfig.isMultiPicklist'); 
         const selectedValue    = component.get('v.selectedValue');
         const newSelectedValue = event.getParam('selected');
-
+        const newQuantity = event.getParam('quantity');
+        alert (newQuantity);
+ //       alert (JSON.stringify(component.find("xyz")));
+//        alert (JSON.stringify(event));
+ //       var quantityValue = component.find("quantity"); //.get("v.value");
+ //       alert (JSON.stringify(quantityValue));
+//var changeValue = event.getParam("value");
+//        alert(changeValue);
+//alert (quantityValue);
         if (objectName === event.getParam('objectName') && 
             fieldName  === event.getParam('fieldName')) {
             const picklistOptions = helper.initSelections(component, [ newSelectedValue ]);

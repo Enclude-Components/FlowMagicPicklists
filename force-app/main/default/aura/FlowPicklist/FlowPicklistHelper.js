@@ -99,8 +99,9 @@
         const isMultiPicklist = component.get('v.picklistConfig.isMultiPicklist'); 
         let picklistOptions = component.get('v.picklistOptions');
         picklistOptions.forEach(picklistOption => {
-            if (selectedValues.includes(picklistOption.optionValue)) {
+            if (selectedValues.name.includes(picklistOption.optionValue)) {
                 if (picklistOption.selected !== true) {
+                    picklistOption.quantity = selectedValues.quantity; // TODO display this value
                     picklistOption.selected = true;
                 } else {
                     picklistOption.selected = false;

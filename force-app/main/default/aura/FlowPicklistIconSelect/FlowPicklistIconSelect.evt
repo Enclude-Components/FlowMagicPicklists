@@ -1,4 +1,5 @@
 <aura:event type="APPLICATION" description="Select Lightning Icon">
     <aura:attribute name="iconName"      type="String" />
     <aura:attribute name="picklistValue" type="String" />
+    <aura:attribute name="quantityValue" type="String" />
 </aura:event>

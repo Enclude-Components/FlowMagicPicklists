@@ -25,7 +25,7 @@
     - 
 -->
 
-<aura:component>
+<aura:component controller="FlowPicklistItemController">
     <aura:attribute name="imageUrl"        type="String" default="https://v1.lightningdesignsystem.com/assets/images/logo.svg" />
     <aura:attribute name="imageSize"       type="String" />
     <aura:attribute name="optionLabel"     type="String" />
@@ -43,7 +43,8 @@
     <aura:attribute name="hideDesc"        type="Boolean" default="false" />
     <aura:attribute name="hideQuantity"    type="Boolean" default="false" />
     <aura:attribute name="isMultiPicklist" type="Boolean" default="false" />
-    <!--
+    <aura:attribute name="quantityPicklistMap" type="Map" access="global"/>
+   <!--
     <aura:attribute name="itemName"        type="String" />
     <aura:attribute name="itemValue"       type="String" />
     -->
@@ -76,7 +77,16 @@
                         <p class="{!v.hideText ? '' : 'slds-m-top_small'}">{!v.description}</p>
                     </aura:if>
                     <aura:if isTrue="{!not(v.hideQuantity)}">
-                        <p class="{!v.hideText ? '' : 'slds-m-top_small'}">{!v.quantityFieldName}</p>
+                        <p class="{!v.hideText ? '' : 'slds-m-top_small'}">
+                            <lightning:select name="quantity" label="Quantity 1" value="{!v.Quantity__c}">
+                                <aura:if isTrue="{!v.quantityPicklistMap.length > 0}">
+                                    <option value="">--Select--</option>
+                                </aura:if>
+                                <aura:iteration items="{!v.quantityPicklistMap}" var="val">
+                                    <option text="{!val.label}" value="{!val.value}" selected="{!val.value == v.Quantity__c}"></option>
+                                </aura:iteration>
+                            </lightning:select>
+                        </p>
                     </aura:if>
                 </aura:if>
             </div>
@@ -96,7 +106,13 @@
                                 <span class="slds-text-title">{!v.description}</span>
                             </aura:if>
                             <aura:if isTrue="{!not(v.hideQuantity)}">
-                                <p class="{!v.hideText ? '' : 'slds-m-top_small'}">{!v.quantityFieldName}</p>
+                                <p class="{!v.hideText ? '' : 'slds-m-top_small'}">
+                                    <lightning:radioGroup name="quantity" label="Quantity 2" value="{!v.Quantity__c}">
+                                        <aura:iteration items="{!v.quantityPicklistMap}" var="val">
+                                            <option text="{!val.label}" value="{!val.value}" selected="{!val.value == v.Quantity__c}"></option>
+                                        </aura:iteration>
+                                    </lightning:radioGroup>
+                                </p>
                             </aura:if>
                         </span>
                     </aura:if>
@@ -135,7 +151,11 @@
                             <span class="slds-text-title">{!v.description}</span>
                         </aura:if>
                         <aura:if isTrue="{!not(v.hideQuantity)}">
-                            <p class="{!v.hideText ? '' : 'slds-m-top_small'}">{!v.quantityFieldName}</p>
+                            <p class="{!v.hideText ? '' : 'slds-m-top_small'}">
+                                <lightning:radioGroup aura:id="mygroup" name="quantity" label="Qty" value="{!v.Quantity__c}"
+                                    options="{!v.quantityPicklistMap}" type="button" variant="label-inline" onchange="{!c.changeQuantity}">
+                                </lightning:radioGroup>
+                            </p>
                         </aura:if>
                     </aura:if>
                 </span>
@@ -167,7 +187,11 @@
                             <span class="slds-text-title">{!v.description}</span>
                         </aura:if>
                         <aura:if isTrue="{!not(v.hideQuantity)}">
-                            <p class="{!v.hideText ? '' : 'slds-m-top_small'}">{!v.quantityFieldName}</p>
+                            <p class="{!v.hideText ? '' : 'slds-m-top_small'}">
+                                <lightning:radioGroup label="Qty" id="{!v.optionValue + 'q'}"
+                                    options="{!v.quantityPicklistMap}" type="button" variant="label-inline" onchange="{!c.changeQuantity}">
+                                </lightning:radioGroup>
+                            </p>
                         </aura:if>
                     </aura:if>
                 </span>

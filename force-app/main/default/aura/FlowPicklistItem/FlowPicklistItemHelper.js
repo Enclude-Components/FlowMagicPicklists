@@ -36,7 +36,8 @@
 
         //const elem = document.getElementById(objectName + '_' + fieldName + '_' + optionValue);
         const elem = document.getElementById(optionValue);
-
+        const elemq = document.getElementById(optionValue + 'q');
+        elemq.value = '3';
         // TODO: refactor
         if (selected && variant !== 'Link') {
             if (elem && !elem.checked) {
@@ -55,5 +56,33 @@
                 }
             }
         } 
+    },
+    getPicklistValues : function(component, event, helper) {
+        var action = component.get("c.getPicklistDetails");
+        action.setCallback(this, function(res){
+            var state = res.getState();
+            if(state === "SUCCESS"){
+                var result = res.getReturnValue();
+                if(!$A.util.isEmpty(result) && !$A.util.isUndefinedOrNull(result)){
+                    var quantityPicklistMap = [];
+                    for(var label in result){
+                        quantityPicklistMap.push({label: label,value:result[label]});
+                    }
+                }
+                component.set("v.quantityPicklistMap",quantityPicklistMap);
+            }
+            else if(state === "ERROR"){
+                var errors = response.getError();
+                if (errors) {
+                    if (errors[0] && errors[0].message) {
+                        // log the error passed in to AuraHandledException
+                        console.log("Error message: " + errors[0].message);
+                    }
+                } else {
+                    console.log("Unknown error");
+                }
+            }
+        });
+        $A.enqueueAction(action);
     }
 })
