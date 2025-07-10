@@ -31,16 +31,12 @@
         const selected    = component.get('v.selected');
         const quantity    = component.get('v.quantity');
         const variant     = component.get('v.variant');
-        const objectName  = component.get('v.objectName');
-        const fieldName   = component.get('v.fieldName');
         const optionValue = component.get('v.optionValue');
 
         //const elem = document.getElementById(objectName + '_' + fieldName + '_' + optionValue);
         const elem = document.getElementById(optionValue);
         const elemq = document.getElementById(optionValue + 'q');
-        if (quantity === undefined){
-            elemq.value = "1";
-         } else {
+        if (quantity !== undefined){
             elemq.value = quantity;
          } 
         // TODO: refactor
@@ -63,7 +59,10 @@
         } 
     },
     getPicklistValues : function(component, event, helper) {
+        const objectName  = component.get('v.objectName');
+        const fieldName   = component.get('v.quantityFieldName');
         var action = component.get("c.getPicklistDetails");
+        action.setParams({ objectName : objectName, fieldName : fieldName });
         action.setCallback(this, function(res){
             var state = res.getState();
             if(state === "SUCCESS"){

@@ -101,7 +101,7 @@
         picklistOptions.forEach(picklistOption => {
             if (selectedValues.name.includes(picklistOption.optionValue)) {
                 if (picklistOption.selected !== true) {
-                    picklistOption.quantity = selectedValues.quantity; // TODO display this value
+                    picklistOption.quantity = selectedValues.quantity;
                     picklistOption.selected = true;
                 } else {
                     picklistOption.selected = false;
@@ -119,6 +119,9 @@
             if (selectedValue.includes(picklistOption.optionValue)) {
                 if (picklistOption.selected !== true) {
                     picklistOption.selected = true;
+                    if (picklistOption.quantity === undefined){
+                        picklistOption.quantity = "1";
+                    }
                 } else {
                     picklistOption.selected = false;
                 }
@@ -133,6 +136,7 @@
         picklistOptions.forEach(picklistOption => {
             if (selectedValue.includes(picklistOption.optionValue)) {
                 picklistOption.quantity = quantity;
+                picklistOption.selected = true; // since the quantity is selected, also select the item
             }
         });
         return picklistOptions;
