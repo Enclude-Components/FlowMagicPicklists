@@ -1,0 +1,6 @@
+<aura:event type="APPLICATION" description="Flow Picklist quantity select event">
+    <aura:attribute name="selected"   type="String" />
+    <aura:attribute name="objectName" type="String" />
+    <aura:attribute name="fieldName"  type="String" />
+    <aura:attribute name="quantity"  type="String" />
+</aura:event>

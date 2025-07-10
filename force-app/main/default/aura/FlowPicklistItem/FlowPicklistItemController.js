@@ -50,13 +50,22 @@
         selectEvent.setParams({
             'selected'   : component.get('v.optionValue'),
             'objectName' : component.get('v.objectName'),
-            'fieldName'  : component.get('v.fieldName'),
-            'quantity'   : component.get('v.optionValue' + 'q').get("v.value")
+            'fieldName'  : component.get('v.fieldName')
         });
+//            'quantity'   : component.get('v.optionValue' + 'q').get("v.value")
         selectEvent.fire();
     },
    	changeQuantity : function(component, event, helper) {
         var changeValue = event.getParam("value");
+        const quantitySelectEvent = component.getEvent('quantitySelectEvent');
+        quantitySelectEvent.setParams({
+            'selected'   : component.get('v.optionValue'),
+            'objectName' : component.get('v.objectName'),
+            'fieldName'  : component.get('v.fieldName'),
+            'quantity'   : event.getParam("value")
+        });
+//            'quantity'   : component.get('v.optionValue' + 'q').get("v.value")
+        quantitySelectEvent.fire();
      }
 
 })

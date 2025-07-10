@@ -44,12 +44,14 @@
     <aura:attribute name="hideQuantity"    type="Boolean" default="false" />
     <aura:attribute name="isMultiPicklist" type="Boolean" default="false" />
     <aura:attribute name="quantityPicklistMap" type="Map" access="global"/>
+    <aura:attribute name="quantity" type="String" />
    <!--
     <aura:attribute name="itemName"        type="String" />
     <aura:attribute name="itemValue"       type="String" />
     -->
     
     <aura:registerEvent name="selectEvent" type="c:FlowPicklistSelect" />
+    <aura:registerEvent name="quantitySelectEvent" type="c:FlowPicklistQuantitySelect" />
 
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
     
@@ -78,14 +80,9 @@
                     </aura:if>
                     <aura:if isTrue="{!not(v.hideQuantity)}">
                         <p class="{!v.hideText ? '' : 'slds-m-top_small'}">
-                            <lightning:select name="quantity" label="Quantity 1" value="{!v.Quantity__c}">
-                                <aura:if isTrue="{!v.quantityPicklistMap.length > 0}">
-                                    <option value="">--Select--</option>
-                                </aura:if>
-                                <aura:iteration items="{!v.quantityPicklistMap}" var="val">
-                                    <option text="{!val.label}" value="{!val.value}" selected="{!val.value == v.Quantity__c}"></option>
-                                </aura:iteration>
-                            </lightning:select>
+                            <lightning:radioGroup label="Qty" id="{!v.optionValue + 'q'}" 
+                                options="{!v.quantityPicklistMap}" type="button" variant="label-inline" onchange="{!c.changeQuantity}">
+                            </lightning:radioGroup>
                         </p>
                     </aura:if>
                 </aura:if>
@@ -107,10 +104,8 @@
                             </aura:if>
                             <aura:if isTrue="{!not(v.hideQuantity)}">
                                 <p class="{!v.hideText ? '' : 'slds-m-top_small'}">
-                                    <lightning:radioGroup name="quantity" label="Quantity 2" value="{!v.Quantity__c}">
-                                        <aura:iteration items="{!v.quantityPicklistMap}" var="val">
-                                            <option text="{!val.label}" value="{!val.value}" selected="{!val.value == v.Quantity__c}"></option>
-                                        </aura:iteration>
+                                    <lightning:radioGroup label="Qty" id="{!v.optionValue + 'q'}" 
+                                        options="{!v.quantityPicklistMap}" type="button" variant="label-inline" onchange="{!c.changeQuantity}">
                                     </lightning:radioGroup>
                                 </p>
                             </aura:if>
@@ -152,7 +147,7 @@
                         </aura:if>
                         <aura:if isTrue="{!not(v.hideQuantity)}">
                             <p class="{!v.hideText ? '' : 'slds-m-top_small'}">
-                                <lightning:radioGroup aura:id="mygroup" name="quantity" label="Qty" value="{!v.Quantity__c}"
+                                <lightning:radioGroup label="Qty" id="{!v.optionValue + 'q'}" 
                                     options="{!v.quantityPicklistMap}" type="button" variant="label-inline" onchange="{!c.changeQuantity}">
                                 </lightning:radioGroup>
                             </p>
@@ -188,7 +183,7 @@
                         </aura:if>
                         <aura:if isTrue="{!not(v.hideQuantity)}">
                             <p class="{!v.hideText ? '' : 'slds-m-top_small'}">
-                                <lightning:radioGroup label="Qty" id="{!v.optionValue + 'q'}"
+                                <lightning:radioGroup label="Qty" id="{!v.optionValue + 'q'}" 
                                     options="{!v.quantityPicklistMap}" type="button" variant="label-inline" onchange="{!c.changeQuantity}">
                                 </lightning:radioGroup>
                             </p>

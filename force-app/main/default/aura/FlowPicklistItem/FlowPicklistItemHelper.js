@@ -29,6 +29,7 @@
     PARENT_ID : null,
     selectOption : function(component) {
         const selected    = component.get('v.selected');
+        const quantity    = component.get('v.quantity');
         const variant     = component.get('v.variant');
         const objectName  = component.get('v.objectName');
         const fieldName   = component.get('v.fieldName');
@@ -37,7 +38,11 @@
         //const elem = document.getElementById(objectName + '_' + fieldName + '_' + optionValue);
         const elem = document.getElementById(optionValue);
         const elemq = document.getElementById(optionValue + 'q');
-        elemq.value = '3';
+        if (quantity === undefined){
+            elemq.value = "1";
+         } else {
+            elemq.value = quantity;
+         } 
         // TODO: refactor
         if (selected && variant !== 'Link') {
             if (elem && !elem.checked) {

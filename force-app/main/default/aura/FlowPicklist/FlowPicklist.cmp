@@ -58,6 +58,7 @@
     <aura:method name="reInit" action="{!c.doInit}" description="Re-initialising method" /> 
     
     <aura:handler name="selectEvent" event="c:FlowPicklistSelect" action="{!c.handleSelect}" />
+    <aura:handler name="quantitySelectEvent" event="c:FlowPicklistQuantitySelect" action="{!c.handleQuantitySelect}" />
     
     <div class="{!'slds-grid ' + (v.variant == 'Vertical' ? 'slds-grid_vertical' : 'slds-wrap') + ' slds-grid_align-' + v.alignment + ' slds-theme_' + v.theme}">
         <aura:iteration items="{!v.picklistOptions}" var="option">
@@ -71,6 +72,7 @@
                                 imageUrl="{!option.imageUrl}"
                                 imageSize="{!v.imageSize}"
                                 selected="{!option.selected}"
+                                quantity="{!option.quantity}"
                                 objectName="{!v.sObjectName}"
                                 fieldName="{!v.picklistField}"
                                 quantityFieldName="{!v.quantityField}"

@@ -112,6 +112,42 @@
         });
         return picklistOptions;
     },
+    showSelection : function(component, selectedValue) {
+        const isMultiPicklist = component.get('v.picklistConfig.isMultiPicklist'); 
+        let picklistOptions = component.get('v.picklistOptions');
+        picklistOptions.forEach(picklistOption => {
+            if (selectedValue.includes(picklistOption.optionValue)) {
+                if (picklistOption.selected !== true) {
+                    picklistOption.selected = true;
+                } else {
+                    picklistOption.selected = false;
+                }
+            } else if (!isMultiPicklist) {
+                picklistOption.selected = false;
+            }
+        });
+        return picklistOptions;
+    },
+    updateQuantity : function(component, selectedValue, quantity) {
+        let picklistOptions = component.get('v.picklistOptions');
+        picklistOptions.forEach(picklistOption => {
+            if (selectedValue.includes(picklistOption.optionValue)) {
+                picklistOption.quantity = quantity;
+            }
+        });
+        return picklistOptions;
+    },
+    convertToString : function (picklistOptionsSource){
+        const selected = picklistOptionsSource
+            .filter(option => {
+                return option.selected === true;
+            })
+            .map(option => ({
+                 "name": option.optionValue,
+                 "quantity": option.quantity
+            }));
+        return JSON.stringify(selected);
+    },
     handleNavigation : function(component) {
         const transitionOnSelect = component.get('v.transitionOnSelect');
         if (transitionOnSelect) {

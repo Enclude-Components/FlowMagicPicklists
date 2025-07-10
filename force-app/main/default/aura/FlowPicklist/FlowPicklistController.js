@@ -40,8 +40,6 @@
                         selectedValues.forEach((oneValue) => {
                             helper.initSelections(component, oneValue);
                         })
-                    } else {
-                        alert (selectedValues);
                     }
                 } else {
                     component.set('v.message', 'No configuration found for this picklist field');
@@ -60,33 +58,29 @@
         const isMultiPicklist  = component.get('v.picklistConfig.isMultiPicklist'); 
         const selectedValue    = component.get('v.selectedValue');
         const newSelectedValue = event.getParam('selected');
-        const newQuantity = event.getParam('quantity');
-        alert (newQuantity);
- //       alert (JSON.stringify(component.find("xyz")));
-//        alert (JSON.stringify(event));
- //       var quantityValue = component.find("quantity"); //.get("v.value");
- //       alert (JSON.stringify(quantityValue));
-//var changeValue = event.getParam("value");
-//        alert(changeValue);
-//alert (quantityValue);
         if (objectName === event.getParam('objectName') && 
             fieldName  === event.getParam('fieldName')) {
-            const picklistOptions = helper.initSelections(component, [ newSelectedValue ]);
-            const selected = picklistOptions
-            .filter(option => {
-                return option.selected === true;
-            })
-            .map(option => {
-                return option.optionValue;
-            })
-            .join(';');
-
+            const picklistOptions = helper.showSelection(component, [ newSelectedValue ]);
+            const selected = helper.convertToString (picklistOptions);
             component.set('v.selectedValue', selected);
             component.set('v.picklistOptions', picklistOptions);
 
             if (!isMultiPicklist && selectedValue !== newSelectedValue) {
                 helper.handleNavigation(component);
             }
+        }
+    },
+    handleQuantitySelect : function(component, event, helper) {
+        const objectName       = component.get('v.sObjectName');
+        const fieldName        = component.get('v.picklistField');
+        const newSelectedValue = event.getParam('selected');
+        const quantity = event.getParam('quantity');
+        if (objectName === event.getParam('objectName') && 
+            fieldName  === event.getParam('fieldName')) {
+            const picklistOptions = helper.updateQuantity(component, [ newSelectedValue ], quantity);
+            const selected = helper.convertToString (picklistOptions);
+            component.set('v.selectedValue', selected);
+            component.set('v.picklistOptions', picklistOptions);
         }
     }
 })
