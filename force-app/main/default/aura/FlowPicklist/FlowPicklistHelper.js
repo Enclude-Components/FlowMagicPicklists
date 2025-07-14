@@ -121,6 +121,7 @@
                     picklistOption.selected = true;
                     if (picklistOption.quantity === undefined){
                         picklistOption.quantity = "1";
+//                        component.set('v.selectedValue', selected); 
                     }
                 } else {
                     picklistOption.selected = false;

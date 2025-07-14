@@ -158,10 +158,10 @@
         </div>
     </aura:if>
     <aura:if isTrue="{!equals(v.variant, 'Non Coverable Content')}">
-        <div class="{!'slds-visual-picker' + (v.selected ? ' selected' : '') + ' slds-visual-picker_' + v.size}" onclick="{!c.selectOption}">
+        <div class="{!'slds-visual-picker' + (v.selected ? ' selected' : '') + ' slds-visual-picker_' + v.size}" >
             <!--<input type="radio" id="{!v.optionValue}" value="{!v.optionValue}" name="{!v.itemName}" onclick="{!c.selectOption}" />-->
             <label for="{!v.optionValue}">
-                <span class="slds-visual-picker__figure slds-visual-picker__text slds-align_absolute-center">
+                <span class="slds-visual-picker__figure slds-visual-picker__text slds-align_absolute-center" onclick="{!c.selectOption}">
                     <span>
                         <aura:if isTrue="{!v.useIcon}">
                             <lightning:icon iconName="{!v.iconName}" 
