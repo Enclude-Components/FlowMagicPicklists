@@ -91,7 +91,6 @@
     </aura:if>
     <aura:if isTrue="{!equals(v.variant, 'Vertical')}">
         <div class="{!'slds-visual-picker' + (v.selected ? ' selected' : '') + ' slds-visual-picker_vertical'}" onclick="{!c.selectOption}">
-            <!--<input type="radio" id="{!v.optionValue}" value="{!v.optionValue}" name="{!v.itemName}" onclick="{!c.selectOption}" />-->
             <label for="{!v.optionValue}">
                 <span class="slds-visual-picker__figure slds-visual-picker__text">
                     <aura:if isTrue="{!or(not(v.hideText), not(v.hideDesc), not(v.hideQuantity))}">
@@ -119,10 +118,9 @@
         </div>
     </aura:if>
     <aura:if isTrue="{!equals(v.variant, 'Coverable Content')}">
-        <div class="{!'slds-visual-picker' + (v.selected ? ' selected' : '') + ' slds-visual-picker_' + v.size}" onclick="{!c.selectOption}">
-            <!--<input type="radio" id="{!v.optionValue}" value="{!v.optionValue}" name="{!v.itemName}" onclick="{!c.selectOption}" />-->
+        <div class="{!'slds-visual-picker' + (v.selected ? ' selected' : '') + ' slds-visual-picker_' + v.size}">
             <label for="{!v.optionValue}">
-                <span class="slds-visual-picker__figure slds-visual-picker__icon slds-align_absolute-center">
+                <span class="slds-visual-picker__figure slds-visual-picker__icon slds-align_absolute-center" onclick="{!c.selectOption}">
                     <span class="slds-is-selected">
                         <lightning:icon iconName="action:check" size="large" />
                     </span>
@@ -159,7 +157,6 @@
     </aura:if>
     <aura:if isTrue="{!equals(v.variant, 'Non Coverable Content')}">
         <div class="{!'slds-visual-picker' + (v.selected ? ' selected' : '') + ' slds-visual-picker_' + v.size}" >
-            <!--<input type="radio" id="{!v.optionValue}" value="{!v.optionValue}" name="{!v.itemName}" onclick="{!c.selectOption}" />-->
             <label for="{!v.optionValue}">
                 <span class="slds-visual-picker__figure slds-visual-picker__text slds-align_absolute-center" onclick="{!c.selectOption}">
                     <span>
@@ -184,7 +181,7 @@
                         <aura:if isTrue="{!not(v.hideQuantity)}">
                             <p class="{!v.hideText ? '' : 'slds-m-top_small'}">
                                 <lightning:radioGroup label="Qty" id="{!v.optionValue + 'q'}" 
-                                    options="{!v.quantityPicklistMap}" type="button" variant="label-inline" onchange="{!c.changeQuantity}">
+                                    options="{!v.quantityPicklistMap}" type="button" variant="label-hidden" onchange="{!c.changeQuantity}">
                                 </lightning:radioGroup>
                             </p>
                         </aura:if>
