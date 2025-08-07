@@ -35,9 +35,9 @@
                 if (response && response.picklistValues && response.picklistValues.length > 0) {
                     component.set("v.picklistConfig", response);
                     component.set("v.picklistOptions", response.picklistValues);
-                    let selectedValues = component.get('v.selectedValue');
+                    let selectedValues = JSON.parse(component.get('v.selectedValue'));
                     if (selectedValues) {
-                        selectedValues.forEach(oneValue => {
+                        selectedValues.forEach((oneValue) => {
                             helper.initSelections(component, oneValue);
                         })
                     }
@@ -47,7 +47,8 @@
             },
             { 
                 objectName : component.get('v.sObjectName'),
-                fieldName  : component.get('v.picklistField')
+                fieldName  : component.get('v.picklistField'),
+                quantityFieldName  : component.get('v.quantityField')
             }
         );
     },
@@ -57,25 +58,29 @@
         const isMultiPicklist  = component.get('v.picklistConfig.isMultiPicklist'); 
         const selectedValue    = component.get('v.selectedValue');
         const newSelectedValue = event.getParam('selected');
-
         if (objectName === event.getParam('objectName') && 
             fieldName  === event.getParam('fieldName')) {
-            const picklistOptions = helper.initSelections(component, [ newSelectedValue ]);
-            const selected = picklistOptions
-            .filter(option => {
-                return option.selected === true;
-            })
-            .map(option => {
-                return option.optionValue;
-            })
-            .join(';');
-
+            const picklistOptions = helper.showSelection(component, [ newSelectedValue ]);
+            const selected = helper.convertToString (picklistOptions);
             component.set('v.selectedValue', selected);
             component.set('v.picklistOptions', picklistOptions);
 
             if (!isMultiPicklist && selectedValue !== newSelectedValue) {
                 helper.handleNavigation(component);
             }
+        }
+    },
+    handleQuantitySelect : function(component, event, helper) {
+        const objectName       = component.get('v.sObjectName');
+        const fieldName        = component.get('v.picklistField');
+        const newSelectedValue = event.getParam('selected');
+        const quantity = event.getParam('quantity');
+        if (objectName === event.getParam('objectName') && 
+            fieldName  === event.getParam('fieldName')) {
+            const picklistOptions = helper.updateQuantity(component, [ newSelectedValue ], quantity);
+            const selected = helper.convertToString (picklistOptions);
+            component.set('v.selectedValue', selected);
+            component.set('v.picklistOptions', picklistOptions);
         }
     }
 })

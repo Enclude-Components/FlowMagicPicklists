@@ -25,7 +25,7 @@
     - 
 -->
 
-<aura:component>
+<aura:component controller="FlowPicklistItemController">
     <aura:attribute name="imageUrl"        type="String" default="https://v1.lightningdesignsystem.com/assets/images/logo.svg" />
     <aura:attribute name="imageSize"       type="String" />
     <aura:attribute name="optionLabel"     type="String" />
@@ -37,16 +37,21 @@
     <aura:attribute name="iconName"        type="String"  default="utility:salesforce1" />
     <aura:attribute name="objectName"      type="String" />
     <aura:attribute name="fieldName"       type="String" />
+    <aura:attribute name="quantityFieldName"       type="String" />
     <aura:attribute name="selected"        type="Boolean" default="false" />
     <aura:attribute name="hideText"        type="Boolean" default="false" />
     <aura:attribute name="hideDesc"        type="Boolean" default="false" />
+    <aura:attribute name="hideQuantity"    type="Boolean" default="false" />
     <aura:attribute name="isMultiPicklist" type="Boolean" default="false" />
-    <!--
+    <aura:attribute name="quantityPicklistMap" type="Map" access="global"/>
+    <aura:attribute name="quantity" type="String" />
+   <!--
     <aura:attribute name="itemName"        type="String" />
     <aura:attribute name="itemValue"       type="String" />
     -->
     
     <aura:registerEvent name="selectEvent" type="c:FlowPicklistSelect" />
+    <aura:registerEvent name="quantitySelectEvent" type="c:FlowPicklistQuantitySelect" />
 
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
     
@@ -66,12 +71,19 @@
                 </aura:if>
             </div>
             <div class="slds-media__body slds-border_left slds-p-around_small">
-                <aura:if isTrue="{!or(not(v.hideText), not(v.hideDesc))}">
+                <aura:if isTrue="{!or(not(v.hideText), not(v.hideDesc), not(v.hideQuantity))}">
                     <aura:if isTrue="{!not(v.hideText)}">
                         <h2 class="slds-truncate slds-text-heading_small" title="{!v.optionLabel}">{!v.optionLabel}</h2>
                     </aura:if>
                     <aura:if isTrue="{!and(not(v.hideDesc), not(empty(v.description)))}">
                         <p class="{!v.hideText ? '' : 'slds-m-top_small'}">{!v.description}</p>
+                    </aura:if>
+                    <aura:if isTrue="{!not(v.hideQuantity)}">
+                        <p class="{!v.hideText ? '' : 'slds-m-top_small'}">
+                            <lightning:radioGroup label="Qty" id="{!v.optionValue + 'q'}" 
+                                options="{!v.quantityPicklistMap}" type="button" variant="label-inline" onchange="{!c.changeQuantity}">
+                            </lightning:radioGroup>
+                        </p>
                     </aura:if>
                 </aura:if>
             </div>
@@ -79,16 +91,22 @@
     </aura:if>
     <aura:if isTrue="{!equals(v.variant, 'Vertical')}">
         <div class="{!'slds-visual-picker' + (v.selected ? ' selected' : '') + ' slds-visual-picker_vertical'}" onclick="{!c.selectOption}">
-            <!--<input type="radio" id="{!v.optionValue}" value="{!v.optionValue}" name="{!v.itemName}" onclick="{!c.selectOption}" />-->
             <label for="{!v.optionValue}">
                 <span class="slds-visual-picker__figure slds-visual-picker__text">
-                    <aura:if isTrue="{!or(not(v.hideText), not(v.hideDesc))}">
+                    <aura:if isTrue="{!or(not(v.hideText), not(v.hideDesc), not(v.hideQuantity))}">
                         <span>
                             <aura:if isTrue="{!not(v.hideText)}">
                                 <span class="slds-text-heading_medium slds-m-bottom_x-small">{!v.optionLabel}</span>
                             </aura:if>
                             <aura:if isTrue="{!and(not(v.hideDesc), not(empty(v.description)))}">
                                 <span class="slds-text-title">{!v.description}</span>
+                            </aura:if>
+                            <aura:if isTrue="{!not(v.hideQuantity)}">
+                                <p class="{!v.hideText ? '' : 'slds-m-top_small'}">
+                                    <lightning:radioGroup label="Qty" id="{!v.optionValue + 'q'}" 
+                                        options="{!v.quantityPicklistMap}" type="button" variant="label-inline" onchange="{!c.changeQuantity}">
+                                    </lightning:radioGroup>
+                                </p>
                             </aura:if>
                         </span>
                     </aura:if>
@@ -100,10 +118,9 @@
         </div>
     </aura:if>
     <aura:if isTrue="{!equals(v.variant, 'Coverable Content')}">
-        <div class="{!'slds-visual-picker' + (v.selected ? ' selected' : '') + ' slds-visual-picker_' + v.size}" onclick="{!c.selectOption}">
-            <!--<input type="radio" id="{!v.optionValue}" value="{!v.optionValue}" name="{!v.itemName}" onclick="{!c.selectOption}" />-->
+        <div class="{!'slds-visual-picker' + (v.selected ? ' selected' : '') + ' slds-visual-picker_' + v.size}">
             <label for="{!v.optionValue}">
-                <span class="slds-visual-picker__figure slds-visual-picker__icon slds-align_absolute-center">
+                <span class="slds-visual-picker__figure slds-visual-picker__icon slds-align_absolute-center" onclick="{!c.selectOption}">
                     <span class="slds-is-selected">
                         <lightning:icon iconName="action:check" size="large" />
                     </span>
@@ -119,12 +136,19 @@
                     </span>
                 </span>
                 <span class="slds-visual-picker__body">
-                    <aura:if isTrue="{!or(not(v.hideText), not(v.hideDesc))}">
+                    <aura:if isTrue="{!or(not(v.hideText), not(v.hideDesc), not(v.hideQuantity))}">
                         <aura:if isTrue="{!not(v.hideText)}">
                             <span class="slds-text-heading_small">{!v.optionLabel}</span>
                         </aura:if>
                         <aura:if isTrue="{!and(not(v.hideDesc), not(empty(v.description)))}">
                             <span class="slds-text-title">{!v.description}</span>
+                        </aura:if>
+                        <aura:if isTrue="{!not(v.hideQuantity)}">
+                            <p class="{!v.hideText ? '' : 'slds-m-top_small'}">
+                                <lightning:radioGroup label="Qty" id="{!v.optionValue + 'q'}" 
+                                    options="{!v.quantityPicklistMap}" type="button" variant="label-inline" onchange="{!c.changeQuantity}">
+                                </lightning:radioGroup>
+                            </p>
                         </aura:if>
                     </aura:if>
                 </span>
@@ -132,10 +156,9 @@
         </div>
     </aura:if>
     <aura:if isTrue="{!equals(v.variant, 'Non Coverable Content')}">
-        <div class="{!'slds-visual-picker' + (v.selected ? ' selected' : '') + ' slds-visual-picker_' + v.size}" onclick="{!c.selectOption}">
-            <!--<input type="radio" id="{!v.optionValue}" value="{!v.optionValue}" name="{!v.itemName}" onclick="{!c.selectOption}" />-->
+        <div class="{!'slds-visual-picker' + (v.selected ? ' selected' : '') + ' slds-visual-picker_' + v.size}" >
             <label for="{!v.optionValue}">
-                <span class="slds-visual-picker__figure slds-visual-picker__text slds-align_absolute-center">
+                <span class="slds-visual-picker__figure slds-visual-picker__text slds-align_absolute-center" onclick="{!c.selectOption}">
                     <span>
                         <aura:if isTrue="{!v.useIcon}">
                             <lightning:icon iconName="{!v.iconName}" 
@@ -148,12 +171,19 @@
                     </span>
                 </span>
                 <span class="slds-visual-picker__body">
-                    <aura:if isTrue="{!or(not(v.hideText), not(v.hideDesc))}">
+                    <aura:if isTrue="{!or(not(v.hideText), not(v.hideDesc), not(v.hideQuantity))}">
                         <aura:if isTrue="{!not(v.hideText)}">
                             <span class="slds-text-heading_small">{!v.optionLabel}</span>
                         </aura:if>
                         <aura:if isTrue="{!and(not(v.hideDesc), not(empty(v.description)))}">
                             <span class="slds-text-title">{!v.description}</span>
+                        </aura:if>
+                        <aura:if isTrue="{!not(v.hideQuantity)}">
+                            <p class="{!v.hideText ? '' : 'slds-m-top_small'}">
+                                <lightning:radioGroup label="Qty" id="{!v.optionValue + 'q'}" 
+                                    options="{!v.quantityPicklistMap}" type="button" variant="label-hidden" onchange="{!c.changeQuantity}">
+                                </lightning:radioGroup>
+                            </p>
                         </aura:if>
                     </aura:if>
                 </span>

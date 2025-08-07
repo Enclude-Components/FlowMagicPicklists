@@ -29,14 +29,16 @@
     PARENT_ID : null,
     selectOption : function(component) {
         const selected    = component.get('v.selected');
+        const quantity    = component.get('v.quantity');
         const variant     = component.get('v.variant');
-        const objectName  = component.get('v.objectName');
-        const fieldName   = component.get('v.fieldName');
         const optionValue = component.get('v.optionValue');
 
         //const elem = document.getElementById(objectName + '_' + fieldName + '_' + optionValue);
         const elem = document.getElementById(optionValue);
-
+        const elemq = document.getElementById(optionValue + 'q');
+        if (quantity !== undefined){
+            elemq.value = quantity;
+         } 
         // TODO: refactor
         if (selected && variant !== 'Link') {
             if (elem && !elem.checked) {
@@ -55,5 +57,36 @@
                 }
             }
         } 
+    },
+    getPicklistValues : function(component, event, helper) {
+        const objectName  = component.get('v.objectName');
+        const fieldName   = component.get('v.quantityFieldName');
+        var action = component.get("c.getPicklistDetails");
+        action.setParams({ objectName : objectName, fieldName : fieldName });
+        action.setCallback(this, function(res){
+            var state = res.getState();
+            if(state === "SUCCESS"){
+                var result = res.getReturnValue();
+                if(!$A.util.isEmpty(result) && !$A.util.isUndefinedOrNull(result)){
+                    var quantityPicklistMap = [];
+                    for(var label in result){
+                        quantityPicklistMap.push({label: label,value:result[label]});
+                    }
+                }
+                component.set("v.quantityPicklistMap",quantityPicklistMap);
+            }
+            else if(state === "ERROR"){
+                var errors = response.getError();
+                if (errors) {
+                    if (errors[0] && errors[0].message) {
+                        // log the error passed in to AuraHandledException
+                        console.log("Error message: " + errors[0].message);
+                    }
+                } else {
+                    console.log("Unknown error");
+                }
+            }
+        });
+        $A.enqueueAction(action);
     }
 })
