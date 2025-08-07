@@ -36,7 +36,7 @@
                     component.set("v.picklistConfig", response);
                     component.set("v.picklistOptions", response.picklistValues);
                     let selectedValues = JSON.parse(component.get('v.selectedValue'));
-                   if (selectedValues) {
+                    if (selectedValues) {
                         selectedValues.forEach((oneValue) => {
                             helper.initSelections(component, oneValue);
                         })
