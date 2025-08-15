@@ -35,11 +35,13 @@
                 if (response && response.picklistValues && response.picklistValues.length > 0) {
                     component.set("v.picklistConfig", response);
                     component.set("v.picklistOptions", response.picklistValues);
-                    let selectedValues = JSON.parse(component.get('v.selectedValue'));
-                    if (selectedValues) {
-                        selectedValues.forEach((oneValue) => {
-                            helper.initSelections(component, oneValue);
-                        })
+                    if (component.get('v.selectedValue') !== undefined){
+                        let selectedValues = JSON.parse(component.get('v.selectedValue'));
+                        if (selectedValues) {
+                            selectedValues.forEach((oneValue) => {
+                                helper.initSelections(component, oneValue);
+                            })
+                        }
                     }
                 } else {
                     component.set('v.message', 'No configuration found for this picklist field');
